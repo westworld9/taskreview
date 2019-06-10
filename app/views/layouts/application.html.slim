@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    title
+      | Taskleaf
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    
+  body#page-top
+    nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top.py-3
+      .container
+        a.navbar-brand.js-scroll-trigger[href="/"]
+          | Start Bootstrap
+        button.navbar-toggler.navbar-toggler-right[type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"]
+          span.navbar-toggler-icon
+        #navbarResponsive.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto.my-2.my-lg-0
+            - if user_signed_in?
+              li.nav-item.dropdown
+                = link_to "#", id:"navbar-dropdown", class: "nav-link dropdown-toggle js-scroll-trigger",date: { toggle: "dropdown" } do 
+                  = avatar_image(current_user.name)
+                  = current_user.email
+              li.nav-item= link_to 'タスク一覧', tasks_path, class: 'nav-link js-scroll-trigger'
+              li.nav-item= link_to 'ユーザー一覧', users_path, class: 'nav-link js-scroll-trigger'
+              li.nav-item= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'nav-link js-scroll-trigger'
+            - else 
+              li.nav-item= link_to 'ログイン', new_user_session_path, class: 'nav-link'
+              li.nav-item= link_to 'サインアップ', new_user_registration_path, class: 'nav-link js-scroll-trigger'
+              
+    header.masthead
+      .container.h-100
+        .row.h-100.align-items-center.justify-content-center.text-center
+          .col-lg-10.align-self-end
+            h1.text-uppercase.text-white.font-weight-bold
+              | Your Favorite Source of Free Bootstrap Themes
+            hr.divider.my-4
+          .col-lg-8.align-self-baseline
+            p.text-white-75.font-weight-light.mb-5
+              | Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!
+            a.btn.btn-primary.btn-xl.js-scroll-trigger[href="#about"]
+              | Find Out More
+    .container.mt-2
+      - if flash.notice.present? 
+        .alert.alert-success= flash.notice
+      = yield
+
+  javascript:
+    $('.star-rating').raty({ 
+      path: "/assets/", 
+      readOnly: true, 
+      score: function () { 
+        return $(this).attr('data-score'); 
+      }
+    }); 

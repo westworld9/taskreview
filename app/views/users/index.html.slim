@@ -1,0 +1,20 @@
+h1 ユーザ一覧
+
+.mb-3 
+table.table.table-hover 
+  thead.thead-default
+    tr 
+      th= User.human_attribute_name(:name) 
+      th= User.human_attribute_name(:email)
+      th= User.human_attribute_name(:created_at)
+      th= User.human_attribute_name(:updated_at)
+      th
+  tbody 
+    - @users.each do |user| 
+      tr 
+        td= link_to user.name, user
+        td= user.email
+        td= user.created_at
+        td= user.updated_at
+        td 
+          = link_to '編集', edit_user_registration_path, class: 'btn btn-primary mr-3'

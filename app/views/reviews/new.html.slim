@@ -1,0 +1,10 @@
+= form_with(model: [@task, @review]) do |f|
+  #rating-form
+  = f.text_area :comment 
+  = f.submit
+  
+javascript:
+  $('#rating-form').raty({
+    path: "/assets", 
+    scoreName: "review[rating]"
+  });
