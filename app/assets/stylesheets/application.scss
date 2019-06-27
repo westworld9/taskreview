@@ -13,12 +13,8 @@
  */
  // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import 'bootstrap-custom';
-@import "masthead";
 @import "creative";
-@import "global";
-@import "custom-variables";
-@import "navbar";
-@import "portfolio";
+@import "jquery.bxslider";
  
 
 .avatar{ 

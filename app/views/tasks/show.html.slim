@@ -13,9 +13,6 @@ h1 タスクの詳細
       tr
         th= Task.human_attribute_name(:description) 
         td= auto_link(simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div"))
-      tr
-        th= Task.human_attribute_name(:image) 
-        td= image_tag @task.image.variant(resize: "900X1000").processed if @task.image.attached?
       tr 
         th= Task.human_attribute_name(:created_at)
         td= @task.created_at
@@ -25,6 +22,11 @@ h1 タスクの詳細
 = link_to '編集', edit_task_path, class: 'btn btn-primary mr-3'
 = link_to '削除', @task, method: :delete, data: {confirm: "タスク「#{@task.name}」を削除しました。よろしいですか？"}, class: 'btn btn-danger'
 
+.mt2
+  ul#slider 
+    - if @task.images.attached? 
+      - @task.images.each do |image|
+        li= image_tag image
 .mt2 
   .star-rating data-score="#{@ave_rating}"
   = link_to "レビューを描く" ,new_task_review_path(@task), class: "btn btn-small"
@@ -45,3 +47,23 @@ h1 タスクの詳細
             td 
               .star-rating data-score="#{review.rating}"
               = review.comment
+
+  javascript:
+    $(function() {
+      var slider = $('#slider').bxSlider(),
+          pauseSettings = [2500, 5000, 10000, 500, 2500];
+    
+      differentPauseSlider(0);
+      function differentPauseSlider(startSlide) {
+        slider.reloadSlider({
+          auto: true,
+          pager: false,
+          controls: false,
+          pause: pauseSettings[startSlide],
+          startSlide: startSlide,
+          onSlideAfter: function($slideElement, oldIndex, newIndex) {
+            differentPauseSlider(newIndex);
+          }
+        });
+      }
+    });

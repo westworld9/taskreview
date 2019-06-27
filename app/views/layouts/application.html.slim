@@ -7,6 +7,7 @@ html
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+      
     
   body#page-top
     nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top.py-3
@@ -28,7 +29,6 @@ html
             - else 
               li.nav-item= link_to 'ログイン', new_user_session_path, class: 'nav-link'
               li.nav-item= link_to 'サインアップ', new_user_registration_path, class: 'nav-link js-scroll-trigger'
-              
     header.masthead
       .container.h-100
         .row.h-100.align-items-center.justify-content-center.text-center
@@ -41,6 +41,7 @@ html
               | Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!
             a.btn.btn-primary.btn-xl.js-scroll-trigger[href="#about"]
               | Find Out More
+
     .container.mt-2
       - if flash.notice.present? 
         .alert.alert-success= flash.notice
@@ -54,3 +55,23 @@ html
         return $(this).attr('data-score'); 
       }
     }); 
+    
+    $(function() {
+      var $win = $(window),
+          $header = $('#mainNav'),
+          animationClass = 'navbar-scrolled';
+    
+      $win.on('load scroll', function() {
+        var value = $(this).scrollTop();
+        if ( value > 100 ) {
+          $header.addClass(animationClass);
+        } else {
+          $header.removeClass(animationClass);
+        }
+      });
+    });
+    
+   
+
+  
+  
